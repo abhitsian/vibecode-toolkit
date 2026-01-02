@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VibeDev Capture</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 350px;
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: #1a1a1a;
+      color: #ffffff;
+    }
+
+    .header {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      margin-bottom: 5px;
+      color: #00d4ff;
+    }
+
+    .header p {
+      font-size: 12px;
+      color: #888;
+    }
+
+    .capture-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 15px;
+      transition: transform 0.2s;
+    }
+
+    .capture-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .capture-btn:active {
+      transform: translateY(0);
+    }
+
+    .status {
+      padding: 10px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      display: none;
+    }
+
+    .status.success {
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid #22c55e;
+      color: #22c55e;
+      display: block;
+    }
+
+    .status.error {
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      display: block;
+    }
+
+    .info-section {
+      background: #2a2a2a;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .info-section h3 {
+      font-size: 14px;
+      margin-bottom: 10px;
+      color: #00d4ff;
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .info-item .label {
+      color: #888;
+    }
+
+    .info-item .value {
+      color: #fff;
+      font-family: monospace;
+    }
+
+    .copy-btn {
+      width: 100%;
+      padding: 10px;
+      background: #2a2a2a;
+      border: 1px solid #444;
+      border-radius: 6px;
+      color: white;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: #333;
+    }
+
+    .output {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 11px;
+      font-family: monospace;
+      color: #c9d1d9;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    .output.show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>VibeDev Capture</h1>
+    <p>One-click bug context capture</p>
+  </div>
+
+  <div id="status" class="status"></div>
+
+  <button id="captureBtn" class="capture-btn">
+    Capture Bug Context
+  </button>
+
+  <div id="output" class="output"></div>
+
+  <div id="info" class="info-section" style="display: none;">
+    <h3>Captured Data</h3>
+    <div id="infoContent"></div>
+  </div>
+
+  <button id="copyBtn" class="copy-btn" style="display: none;">
+    Copy to Clipboard
+  </button>
+
+  <script src="popup.js"></script>
+</body>
+</html>

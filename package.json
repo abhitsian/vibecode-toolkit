@@ -1,0 +1,29 @@
+{
+  "name": "vibecode-toolkit",
+  "version": "0.1.0",
+  "description": "A comprehensive toolkit for vibecoders to capture, debug, and communicate issues",
+  "module": "src/index.ts",
+  "type": "module",
+  "bin": {
+    "vibe": "./src/cli.ts"
+  },
+  "scripts": {
+    "dev": "bun run src/cli.ts",
+    "build": "bun build src/cli.ts --outdir dist --target node",
+    "test": "bun test"
+  },
+  "keywords": ["vibecode", "debugging", "developer-tools", "cli"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "commander": "^12.0.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.1"
+  }
+}
