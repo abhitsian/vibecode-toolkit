@@ -1,7 +1,7 @@
 import { Command } from 'commander';
 import chalk from 'chalk';
 import ora from 'ora';
-import { writeFileSync } from 'fs';
+import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import type { BugContext, CaptureOptions } from '../types/index.js';
 import { captureScreenshot } from '../utils/screenshot.js';
@@ -74,8 +74,14 @@ export function createCaptureCommand(): Command {
         spinner.text = 'Generating report...';
         const report = formatBugReport(context, gitInfo);
 
+        // Ensure .vibe directory exists
+        const vibeDir = join(process.cwd(), '.vibe');
+        if (!existsSync(vibeDir)) {
+          mkdirSync(vibeDir, { recursive: true });
+        }
+
         // Save to file
-        const outputPath = options.output || join(process.cwd(), '.vibe', `report-${Date.now()}.md`);
+        const outputPath = options.output || join(vibeDir, `report-${Date.now()}.md`);
         writeFileSync(outputPath, report);
 
         spinner.succeed(chalk.green('Bug context captured successfully!'));

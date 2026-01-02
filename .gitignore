@@ -1,6 +1,9 @@
 # VibeDev output directory
 .vibe
 
+# Test project
+test-project/
+
 # dependencies (bun install)
 node_modules
 
