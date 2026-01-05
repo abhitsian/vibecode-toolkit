@@ -4,7 +4,7 @@ use tauri::{
     image::Image,
     Manager, WebviewWindow, AppHandle, Runtime, Emitter,
 };
-use tauri_plugin_global_shortcut::{Code, Modifiers, ShortcutState};
+use tauri_plugin_global_shortcut::GlobalShortcutExt;
 use std::process::Command;
 
 #[derive(serde::Serialize)]
@@ -154,39 +154,39 @@ pub fn run() {
                 })
                 .build(app)?;
 
-            // Register global hotkeys
-            let app_handle = app.handle().clone();
-
-            // Cmd+Shift+V - Quick Capture
-            app.handle().plugin(
-                tauri_plugin_global_shortcut::Builder::new()
-                    .with_handler(move |_app, shortcut, event| {
-                        if event.state == ShortcutState::Pressed {
-                            if shortcut.matches(Modifiers::SUPER | Modifiers::SHIFT, Code::KeyV) {
-                                if let Some(window) = app_handle.get_webview_window("main") {
-                                    let _ = window.emit("trigger-capture", ());
-                                    let _ = position_window_near_tray(&window);
-                                    let _ = window.show();
-                                    let _ = window.set_focus();
-                                }
-                            }
-                        }
-                    })
-                    .build(),
-            )?;
-
-            // Register the shortcuts
+            // Register global shortcuts
             app.global_shortcut()
-                .register("CmdOrCtrl+Shift+V")
-                .map_err(|e| format!("Failed to register hotkey: {}", e))?;
+                .on_shortcut("CmdOrCtrl+Shift+V", |app, _shortcut, _event| {
+                    if let Some(window) = app.get_webview_window("main") {
+                        let _ = window.emit("trigger-capture", ());
+                        let _ = position_window_near_tray(&window);
+                        let _ = window.show();
+                        let _ = window.set_focus();
+                    }
+                })
+                .map_err(|e| format!("Failed to register Cmd+Shift+V: {}", e))?;
 
             app.global_shortcut()
-                .register("CmdOrCtrl+Shift+S")
-                .map_err(|e| format!("Failed to register hotkey: {}", e))?;
+                .on_shortcut("CmdOrCtrl+Shift+S", |app, _shortcut, _event| {
+                    if let Some(window) = app.get_webview_window("main") {
+                        let _ = window.emit("trigger-screenshot", ());
+                        let _ = position_window_near_tray(&window);
+                        let _ = window.show();
+                        let _ = window.set_focus();
+                    }
+                })
+                .map_err(|e| format!("Failed to register Cmd+Shift+S: {}", e))?;
 
             app.global_shortcut()
-                .register("CmdOrCtrl+Shift+R")
-                .map_err(|e| format!("Failed to register hotkey: {}", e))?;
+                .on_shortcut("CmdOrCtrl+Shift+R", |app, _shortcut, _event| {
+                    if let Some(window) = app.get_webview_window("main") {
+                        let _ = window.emit("trigger-recording", ());
+                        let _ = position_window_near_tray(&window);
+                        let _ = window.show();
+                        let _ = window.set_focus();
+                    }
+                })
+                .map_err(|e| format!("Failed to register Cmd+Shift+R: {}", e))?;
 
             Ok(())
         })
